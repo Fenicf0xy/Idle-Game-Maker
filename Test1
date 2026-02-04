@@ -1,196 +1,190 @@
 let's make a game!
 name: Dragon Empire
-author: Fenicf0x 
-desc: <b>Rise from humble hatchling to <t>Dragon Lord</t>!</b><br/><q>Command lairs, hoard gold, and crush kingdoms!<//><.>Dynamic <b>text effects</b><.>Advanced <u>production chains</u><.>Complex <g#f90>upgrades</g#></q>
-version: 2.0
+author: Fenicf0x
+desc: <b>Rise from hatchling to <t>Dragon Lord</t>!</b><br/><q>Hoard gold, breed dragons, conquer kingdoms!</q>
+version: 2.3
 created: 04/02/2026
-updated: 04/02/2026
 
 Settings
 stylesheet: stuff/bigBlue.css
 building cost increase: 118%
-spritesheet: icons, 48 by 48, https://orteil.dashnet.org/igm/stuff/icons.png
+spritesheet: cookieIcons, 48 by 48, https://orteil.dashnet.org/cookieclicker/img/icons.png
 
 Resources
 *gold
-  name: <b>[n:this]</b> [<g#f90>[this]</g#>] 
-  desc: <b>Dragon hoard currency</b><.>Used for everything.<.>[?(this>=10000|<i>Poor</i>|<i>RICH!</i>)]
-  icon: icons[0,0]
+  name: <b>Gold Hoard</b> [<g#f90>[this]</g#>] 
+  desc: <b>Shiny treasure</b> fuels your empire.<.>[?(gold>=10000|<i>Legendary hoard!</i>|<i>Need more...</i>)]
+  icon: cookieIcons[0,0]
 
 *eggs
   name: Dragon Eggs
-  desc: <q>Freshly laid. Need warmth to hatch.</q>
-  icon: icons[1,0]
+  desc: <q>Freshly laid eggs ready to hatch.</q>
+  icon: cookieIcons[1,0]
 
 *wyrmlings
   name: Wyrmlings
-  desc: <b>Baby dragons</b> - cute but deadly!
-  icon: icons[2,0]
+  desc: <b>Baby dragons</b> - your growing army!
+  icon: cookieIcons[2,0]
 
 *fire
   name: Dragonfire
-  desc: <#ff4400>Scorching heat</> from dragon breath.
-  icon: icons[3,0]
+  desc: <#ff4400>Scorching flames</> from dragon breath.
+  icon: cookieIcons[3,0]
 
 *essence
   name: Draconic Essence
-  desc: <#aa00ff>Concentrated dragon power</>.
-  icon: icons[4,0]
+  desc: <#aa00ff>Pure dragon power</>.
+  icon: cookieIcons[4,0]
 
 Buttons
 *hunt
-  name: <t>HUNT</t>
-  desc: Send dragons to raid villages. Gain <g#f90>[random(1,5)] gold</g#>.
-  icon: icons[5,0]
+  name: <t>RAID VILLAGES</t>
+  desc: Dragons pillage for <g#f90>gold & eggs</g#>!
+  icon: cookieIcons[5,0]
   class: bigButton hasFlares
   on click:
-    $loot=random(1,5)
-    if (have raiders) $loot=$loot*2
+    $loot=random(2,8)
+    if (have raidMasters) $loot=$loot*2
     yield $loot gold
-    if (chance(10%)) yield 1 eggs
+    if (chance(15%)) yield 1 eggs
+    toast <b>[random(50,150)] gold raided!</b>
   end
-  text: <b>Raid!</b> <i>Click for gold</i>
 
 *incubate
-  name: Incubate Eggs
-  desc: Warm eggs with dragonfire to hatch wyrmlings.
-  icon: icons[1,0]
-  req: fire 10
-  cost: 5 eggs, 10 fire
-  on click: yield 2 wyrmlings
+  name: Hatch Eggs
+  desc: Warm eggs with fire to breed army.
+  icon: cookieIcons[1,0]
+  req: fire 15
+  cost: 4 eggs, 12 fire
+  on click: yield 3 wyrmlings
 
 Buildings
 *lair
   name: Dragon Lair
-  desc: <#f90>Warm cave</> where eggs safely hatch.<.>Produces <b>wyrmlings</b>.
-  icon: icons[6,0]
-  cost: 50 gold
-  on tick: yield 0.1 eggs, 0.05 wyrmlings
+  desc: <#f90>Cave system</> hatches eggs automatically.
+  icon: cookieIcons[6,0]
+  cost: 40 gold
+  on tick: yield 0.15 eggs
 
 *flamePit
   name: Flame Pit
-  desc: <#ff4400>Roaring fire pit</> generates heat.<.>Boosts lair hatching.
-  icon: icons[3,0]
-  cost: 200 gold, 10 eggs
-  req: lair 2
-  on tick: yield 1 fire
+  desc: <#ff4400>Roaring inferno</> generates heat.
+  icon: cookieIcons[3,0]
+  cost: 180 gold, 12 eggs
+  req: lair 3
+  on tick: yield 1.2 fire
 
 *hoardVault
-  name: Hoard Vault
-  desc: <b>Impregnable vault</b> protects gold production.
-  icon: icons[0,0]
-  cost: 1000 gold, 20 wyrmlings
-  req: flamePit 3
-  on tick: yield 2 gold
+  name: Treasure Vault
+  desc: <b>Impregnable gold storage</b> + production.
+  icon: cookieIcons[0,0]
+  cost: 900 gold, 25 wyrmlings
+  req: flamePit 4
+  on tick: yield 2.5 gold
 
 *essenceAltar
   name: Essence Altar
-  desc: <#aa00ff>Extracts pure essence</> from sacrifices.
-  icon: icons[4,0]
-  cost: 5000 gold, 50 wyrmlings, 100 fire
-  req: hoardVault 5
-  on tick: yield 0.02 essence
+  desc: <#aa00ff>Ritual site</> extracts dragon essence.
+  icon: cookieIcons[4,0]
+  cost: 4500 gold, 60 wyrmlings, 120 fire
+  req: hoardVault 6
+  on tick: yield 0.025 essence
 
-*wyrmRider
-  name: Wyrm Rider Squadron
-  desc: <i>Elite dragon cavalry</i> raids distant kingdoms.
-  icon: icons[2,0]
-  cost: 25000 gold, 200 wyrmlings, 10 essence
-  req: essenceAltar 3
-  on tick: yield 15 gold
+*wyrmRiders
+  name: Wyrm Rider Legion
+  desc: <i>Elite dragon cavalry</i> conquers kingdoms.
+  icon: cookieIcons[2,0]
+  cost: 22000 gold, 250 wyrmlings, 12 essence
+  req: essenceAltar 4
+  on tick: yield 18 gold
 
 *ancientLair
-  name: Ancient Lair
-  desc: <#f0f><t>Boosts ALL production 2x</t></>.
-  icon: icons[7,0]
-  cost: 100000 gold, 1000 wyrmlings, 500 fire, 50 essence
-  req: wyrmRider 10
+  name: Ancient Dragon Lair
+  desc: <#f0f><t>DOUBLES all production!</t></>.
+  icon: cookieIcons[7,0]
+  cost: 90000 gold, 1200 wyrmlings, 600 fire, 60 essence
+  req: wyrmRiders 12
   passive: multiply yield of :Buildings by 2
 
 Upgrades
 *reinforcedLairs
   name: Reinforced Lairs
-  desc: <b>Lairs produce 50% more eggs.</b>
-  icon: icons[6,0]
-  cost: 750 gold
-  req: lair 10
+  desc: <b>+50% egg production</b> from lairs.
+  icon: cookieIcons[6,0]
+  cost: 600 gold
+  req: lair 12
   passive: multiply eggs yield of lair by 1.5
 
 *fireproofEggs
   name: Fireproof Eggs
   desc: Eggs need <#ff4400>less fire</> to hatch.
-  icon: icons[1,0]
-  cost: 1500 gold, 50 fire
-  req: flamePit 5
-  passive: multiply cost of incubate fire by 0.5
+  icon: cookieIcons[1,0]
+  cost: 1200 gold, 60 fire
+  passive: multiply cost of incubate fire by 0.6
 
 *dragonTrainers
   name: Dragon Trainers
   desc: <i>Wyrmlings grow 2x faster.</i>
-  icon: icons[2,0]
-  cost: 4000 gold, 100 wyrmlings
+  icon: cookieIcons[2,0]
+  cost: 3500 gold, 120 wyrmlings
   passive: multiply wyrmlings yield of lair by 2
 
 *essenceRitual
-  name: Essence Ritual
-  desc: <#aa00ff>Double essence production.</>
-  icon: icons[4,0]
-  cost: 20000 gold, 20 essence
-  req: essence 20
+  name: Grand Essence Ritual
+  desc: <#aa00ff>Double essence from altars.</>.
+  icon: cookieIcons[4,0]
+  cost: 18000 gold, 25 essence
   passive: multiply essence yield of essenceAltar by 2
 
 *raidMasters
-  name: Raid Masters
-  desc: <b>Hunting yields [huntLoot*2] gold!</b>
-  icon: icons[5,0]
-  cost: 50000 gold
-  passive:
-    $huntLoot=2
-    increase gold yield of hunt by $huntLoot
-  end
+  name: Raid Mastery
+  desc: <b>Hunt yields 2x more gold!</b>
+  icon: cookieIcons[5,0]
+  cost: 45000 gold
+  passive: multiply gold yield of hunt by 2
 
 Achievements
 *eggLord
   name: Egg Lord
-  desc: Hatched <b>100 eggs</b>.
-  icon: icons[1,0]
-  req: eggs 100:earned
+  desc: Hatched <b>250 eggs</b>.
+  icon: cookieIcons[1,0]
+  req: eggs 250:earned
 
 *flameMaster
   name: Flame Master
-  desc: <#ff4400>Generated 1000 fire</>.
-  icon: icons[3,0]
-  req: fire 1000:earned
+  desc: <#ff4400>Generated 1500 fire</>.
+  icon: cookieIcons[3,0]
+  req: fire 1500:earned
 
 *wyrmLord
   name: Wyrm Lord
-  desc: Command <t>1000 wyrmlings</t>!
-  icon: icons[2,0]
-  req: wyrmlings 1000
+  desc: Command <t>1500 wyrmlings</t>!
+  icon: cookieIcons[2,0]
+  req: wyrmlings 1500
 
 *dragonKing
   name: Dragon King
-  desc: Hoarded <g#f90>1,000,000 gold</g#>!
-  icon: icons[0,0]
-  req: gold 1000000
+  desc: Hoarded <g#f90>2,000,000 gold</g#>!
+  icon: cookieIcons[0,0]
+  req: gold 2000000
 
 Layout
 use default
 *achievementsBox
   in: store
   contains: Achievements
-  header: <t>Legendary Feats</t>
+  header: <t>Draconic Legends</t>
 
 Shinies
 *treasureChest
-  name: Treasure Chest
-  desc: <i>Rare chest</> from fallen kingdoms!
-  icon: icons[8,0]
-  frequency: 300
-  frequency variation: 120
-  duration: 15
-  movement: anywhere fade bounce grow
+  name: Fallen Kingdom's Chest
+  desc: <i>Rare treasure</i> from conquests!
+  icon: cookieIcons[8,0]
+  frequency: 240
+  duration: 18
+  movement: anywhere fade bounce grow spinRandom
   on click:
-    yield random(50,200) gold
-    if (chance(25%)) yield 1 essence
+    yield random(75,250) gold
+    if (chance(30%)) yield 1 essence
+    toast <g#f90>Hoard grows!</g#>
   end
