@@ -1,236 +1,196 @@
-Let's make a game!
-name: Galactic Factory
-by: Fenicf0xy
-desc: Grow from a tiny workshop into a galactic‑scale factory empire.
-created: 04/02/26
-currency: credits
+let's make a game!
+name: Dragon Empire
+author: Fenicf0x 
+desc: <b>Rise from humble hatchling to <t>Dragon Lord</t>!</b><br/><q>Command lairs, hoard gold, and crush kingdoms!<//><.>Dynamic <b>text effects</b><.>Advanced <u>production chains</u><.>Complex <g#f90>upgrades</g#></q>
+version: 2.0
+created: 04/02/2026
+updated: 04/02/2026
 
-things
+Settings
+stylesheet: stuff/bigBlue.css
+building cost increase: 118%
+spritesheet: icons, 48 by 48, https://orteil.dashnet.org/igm/stuff/icons.png
 
-thing: credits
-name: Credits
-icon: money
-type: currency
-start: 0
+Resources
+*gold
+  name: <b>[n:this]</b> [<g#f90>[this]</g#>] 
+  desc: <b>Dragon hoard currency</b><.>Used for everything.<.>[?(this>=10000|<i>Poor</i>|<i>RICH!</i>)]
+  icon: icons[0,0]
 
-thing: ore
-name: Ore
-icon: rock
-type: resource
-start: 0
+*eggs
+  name: Dragon Eggs
+  desc: <q>Freshly laid. Need warmth to hatch.</q>
+  icon: icons[1,0]
 
-thing: metal
-name: Metal
-icon: bar
-type: resource
-start: 0
+*wyrmlings
+  name: Wyrmlings
+  desc: <b>Baby dragons</b> - cute but deadly!
+  icon: icons[2,0]
 
-thing: crystal
-name: Crystal
-icon: gem
-type: resource
-start: 0
+*fire
+  name: Dragonfire
+  desc: <#ff4400>Scorching heat</> from dragon breath.
+  icon: icons[3,0]
 
-thing: energy
-name: Energy
-icon: lightning
-type: resource
-start: 0
+*essence
+  name: Draconic Essence
+  desc: <#aa00ff>Concentrated dragon power</>.
+  icon: icons[4,0]
 
-thing: research
-name: Research
-icon: flask
-type: resource
-start: 0
+Buttons
+*hunt
+  name: <t>HUNT</t>
+  desc: Send dragons to raid villages. Gain <g#f90>[random(1,5)] gold</g#>.
+  icon: icons[5,0]
+  class: bigButton hasFlares
+  on click:
+    $loot=random(1,5)
+    if (have raiders) $loot=$loot*2
+    yield $loot gold
+    if (chance(10%)) yield 1 eggs
+  end
+  text: <b>Raid!</b> <i>Click for gold</i>
 
-buttons
+*incubate
+  name: Incubate Eggs
+  desc: Warm eggs with dragonfire to hatch wyrmlings.
+  icon: icons[1,0]
+  req: fire 10
+  cost: 5 eggs, 10 fire
+  on click: yield 2 wyrmlings
 
-button: mineOre
-name: Hand mine ore
-desc: Mine a chunk of basic ore by hand.
-icon: rock
-cost: 0 credits
-gives: 1 ore
+Buildings
+*lair
+  name: Dragon Lair
+  desc: <#f90>Warm cave</> where eggs safely hatch.<.>Produces <b>wyrmlings</b>.
+  icon: icons[6,0]
+  cost: 50 gold
+  on tick: yield 0.1 eggs, 0.05 wyrmlings
 
-button: refineMetal
-name: Smelt metal
-desc: Turn ore into usable metal.
-icon: bar
-cost: 5 ore
-gives: 1 metal
+*flamePit
+  name: Flame Pit
+  desc: <#ff4400>Roaring fire pit</> generates heat.<.>Boosts lair hatching.
+  icon: icons[3,0]
+  cost: 200 gold, 10 eggs
+  req: lair 2
+  on tick: yield 1 fire
 
-button: growCrystal
-name: Grow crystals
-desc: Use metal and energy to grow rare crystals.
-icon: gem
-cost: 5 metal, 10 energy
-gives: 1 crystal
+*hoardVault
+  name: Hoard Vault
+  desc: <b>Impregnable vault</b> protects gold production.
+  icon: icons[0,0]
+  cost: 1000 gold, 20 wyrmlings
+  req: flamePit 3
+  on tick: yield 2 gold
 
-button: runExperiment
-name: Run experiment
-desc: Spend crystal and energy to gain research.
-icon: flask
-cost: 2 crystal, 25 energy
-gives: 1 research
+*essenceAltar
+  name: Essence Altar
+  desc: <#aa00ff>Extracts pure essence</> from sacrifices.
+  icon: icons[4,0]
+  cost: 5000 gold, 50 wyrmlings, 100 fire
+  req: hoardVault 5
+  on tick: yield 0.02 essence
 
-buildings
+*wyrmRider
+  name: Wyrm Rider Squadron
+  desc: <i>Elite dragon cavalry</i> raids distant kingdoms.
+  icon: icons[2,0]
+  cost: 25000 gold, 200 wyrmlings, 10 essence
+  req: essenceAltar 3
+  on tick: yield 15 gold
 
-building: workshop
-name: Workshop
-desc: Produces credits by making simple goods from metal.
-icon: factory
-cost: 50 credits, 10 metal
-gives: 1 credits
+*ancientLair
+  name: Ancient Lair
+  desc: <#f0f><t>Boosts ALL production 2x</t></>.
+  icon: icons[7,0]
+  cost: 100000 gold, 1000 wyrmlings, 500 fire, 50 essence
+  req: wyrmRider 10
+  passive: multiply yield of :Buildings by 2
 
-building: powerPlant
-name: Power plant
-desc: Generates energy from credits and ore.
-icon: lightning
-cost: 100 credits, 20 ore
-gives: 2 energy
+Upgrades
+*reinforcedLairs
+  name: Reinforced Lairs
+  desc: <b>Lairs produce 50% more eggs.</b>
+  icon: icons[6,0]
+  cost: 750 gold
+  req: lair 10
+  passive: multiply eggs yield of lair by 1.5
 
-building: mine
-name: Automated mine
-desc: Continuously generates ore.
-icon: rock
-cost: 150 credits
-gives: 3 ore
+*fireproofEggs
+  name: Fireproof Eggs
+  desc: Eggs need <#ff4400>less fire</> to hatch.
+  icon: icons[1,0]
+  cost: 1500 gold, 50 fire
+  req: flamePit 5
+  passive: multiply cost of incubate fire by 0.5
 
-building: smelter
-name: Smelter
-desc: Automatically converts ore into metal.
-icon: bar
-cost: 250 credits, 30 ore
-gives: 2 metal
+*dragonTrainers
+  name: Dragon Trainers
+  desc: <i>Wyrmlings grow 2x faster.</i>
+  icon: icons[2,0]
+  cost: 4000 gold, 100 wyrmlings
+  passive: multiply wyrmlings yield of lair by 2
 
-building: crystalLab
-name: Crystal lab
-desc: Grows rare crystals using metal and energy.
-icon: gem
-cost: 500 credits, 50 metal, 50 energy
-gives: 1 crystal
+*essenceRitual
+  name: Essence Ritual
+  desc: <#aa00ff>Double essence production.</>
+  icon: icons[4,0]
+  cost: 20000 gold, 20 essence
+  req: essence 20
+  passive: multiply essence yield of essenceAltar by 2
 
-building: researchLab
-name: Research lab
-desc: Generates research over time.
-icon: flask
-cost: 800 credits, 5 crystal
-gives: 1 research
+*raidMasters
+  name: Raid Masters
+  desc: <b>Hunting yields [huntLoot*2] gold!</b>
+  icon: icons[5,0]
+  cost: 50000 gold
+  passive:
+    $huntLoot=2
+    increase gold yield of hunt by $huntLoot
+  end
 
-building: spacePort
-name: Spaceport
-desc: Sells goods off‑world for lots of credits.
-icon: rocket
-cost: 1200 credits, 40 metal
-gives: 10 credits
+Achievements
+*eggLord
+  name: Egg Lord
+  desc: Hatched <b>100 eggs</b>.
+  icon: icons[1,0]
+  req: eggs 100:earned
 
-building: megaFactory
-name: Mega factory
-desc: A huge complex that boosts all production.
-icon: factory
-cost: 5000 credits, 50 metal, 10 crystal
-gives: 25 credits
+*flameMaster
+  name: Flame Master
+  desc: <#ff4400>Generated 1000 fire</>.
+  icon: icons[3,0]
+  req: fire 1000:earned
 
-upgrades
+*wyrmLord
+  name: Wyrm Lord
+  desc: Command <t>1000 wyrmlings</t>!
+  icon: icons[2,0]
+  req: wyrmlings 1000
 
-upgrade: betterTools
-name: Better tools
-desc: You learn to mine ore more efficiently.
-icon: rock
-cost: 100 credits
-mult: mine.gives 1.5
+*dragonKing
+  name: Dragon King
+  desc: Hoarded <g#f90>1,000,000 gold</g#>!
+  icon: icons[0,0]
+  req: gold 1000000
 
-upgrade: hardenedDrills
-name: Hardened drills
-desc: Automated mines pull more ore out of the ground.
-icon: rock
-cost: 200 credits, 50 ore
-mult: mine.gives 2
+Layout
+use default
+*achievementsBox
+  in: store
+  contains: Achievements
+  header: <t>Legendary Feats</t>
 
-upgrade: efficientSmelters
-name: Efficient smelters
-desc: Smelters produce more metal from the same ore.
-icon: bar
-cost: 300 credits, 40 ore
-mult: smelter.gives 2
-
-upgrade: reinforcedWorkshops
-name: Reinforced workshops
-desc: Workshops can run faster and output more credits.
-icon: factory
-cost: 400 credits, 30 metal
-mult: workshop.gives 2
-
-upgrade: highVoltage
-name: High voltage
-desc: Power plants generate more energy.
-icon: lightning
-cost: 500 credits, 30 ore
-mult: powerPlant.gives 2
-
-upgrade: crystalFarming
-name: Crystal farming
-desc: Crystal labs become more efficient.
-icon: gem
-cost: 800 credits, 10 crystal
-mult: crystalLab.gives 2
-
-upgrade: advancedTheories
-name: Advanced theories
-desc: Research labs produce more research.
-icon: flask
-cost: 1200 credits, 20 research
-mult: researchLab.gives 2
-
-upgrade: tradeRoutes
-name: Trade routes
-desc: Spaceports earn much more from exports.
-icon: rocket
-cost: 1500 credits, 20 metal
-mult: spacePort.gives 2
-
-upgrade: megaAutomation
-name: Mega automation
-desc: Mega factories produce many more credits.
-icon: factory
-cost: 4000 credits, 20 crystal
-mult: megaFactory.gives 2
-
-upgrade: globalBoost
-name: Galactic synergy
-desc: Every building produces more of its main output.
-icon: star
-cost: 10000 credits, 50 research
-mult: workshop.gives 1.5, powerPlant.gives 1.5, mine.gives 1.5, smelter.gives 1.5, crystalLab.gives 1.5, researchLab.gives 1.5, spacePort.gives 1.5, megaFactory.gives 1.5
-
-achievements
-
-achievement: firstOre
-name: First ore
-desc: Mine your first ore.
-icon: rock
-req: ore 1
-
-achievement: firstCredits
-name: First paycheck
-desc: Earn your first 100 credits.
-icon: money
-req: credits 100
-
-achievement: bigIndustry
-name: Growing industry
-desc: Own 10 workshops.
-icon: factory
-req: workshop 10
-
-achievement: researchBoom
-name: Knowledge boom
-desc: Reach 100 research.
-icon: flask
-req: research 100
-
-achievement: galacticTycoon
-name: Galactic tycoon
-desc: Reach 100000 credits.
-icon: star
-req: credits 100000
+Shinies
+*treasureChest
+  name: Treasure Chest
+  desc: <i>Rare chest</> from fallen kingdoms!
+  icon: icons[8,0]
+  frequency: 300
+  frequency variation: 120
+  duration: 15
+  movement: anywhere fade bounce grow
+  on click:
+    yield random(50,200) gold
+    if (chance(25%)) yield 1 essence
+  end
