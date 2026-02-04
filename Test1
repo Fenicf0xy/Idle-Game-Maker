@@ -1,9 +1,8 @@
 Let's make a game!
 name: Galactic Factory
-by: Fenicf0x
+by: Fenicf0xy
 desc: Grow from a tiny workshop into a galactic‑scale factory empire.
 created: 04/02/26
-fg: #f0f0ff
 currency: credits
 
 things
