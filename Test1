@@ -1,0 +1,237 @@
+Let's make a game!
+name: Galactic Factory
+by: Fenicf0x
+desc: Grow from a tiny workshop into a galactic‑scale factory empire.
+created: 04/02/26
+fg: #f0f0ff
+currency: credits
+
+things
+
+thing: credits
+name: Credits
+icon: money
+type: currency
+start: 0
+
+thing: ore
+name: Ore
+icon: rock
+type: resource
+start: 0
+
+thing: metal
+name: Metal
+icon: bar
+type: resource
+start: 0
+
+thing: crystal
+name: Crystal
+icon: gem
+type: resource
+start: 0
+
+thing: energy
+name: Energy
+icon: lightning
+type: resource
+start: 0
+
+thing: research
+name: Research
+icon: flask
+type: resource
+start: 0
+
+buttons
+
+button: mineOre
+name: Hand mine ore
+desc: Mine a chunk of basic ore by hand.
+icon: rock
+cost: 0 credits
+gives: 1 ore
+
+button: refineMetal
+name: Smelt metal
+desc: Turn ore into usable metal.
+icon: bar
+cost: 5 ore
+gives: 1 metal
+
+button: growCrystal
+name: Grow crystals
+desc: Use metal and energy to grow rare crystals.
+icon: gem
+cost: 5 metal, 10 energy
+gives: 1 crystal
+
+button: runExperiment
+name: Run experiment
+desc: Spend crystal and energy to gain research.
+icon: flask
+cost: 2 crystal, 25 energy
+gives: 1 research
+
+buildings
+
+building: workshop
+name: Workshop
+desc: Produces credits by making simple goods from metal.
+icon: factory
+cost: 50 credits, 10 metal
+gives: 1 credits
+
+building: powerPlant
+name: Power plant
+desc: Generates energy from credits and ore.
+icon: lightning
+cost: 100 credits, 20 ore
+gives: 2 energy
+
+building: mine
+name: Automated mine
+desc: Continuously generates ore.
+icon: rock
+cost: 150 credits
+gives: 3 ore
+
+building: smelter
+name: Smelter
+desc: Automatically converts ore into metal.
+icon: bar
+cost: 250 credits, 30 ore
+gives: 2 metal
+
+building: crystalLab
+name: Crystal lab
+desc: Grows rare crystals using metal and energy.
+icon: gem
+cost: 500 credits, 50 metal, 50 energy
+gives: 1 crystal
+
+building: researchLab
+name: Research lab
+desc: Generates research over time.
+icon: flask
+cost: 800 credits, 5 crystal
+gives: 1 research
+
+building: spacePort
+name: Spaceport
+desc: Sells goods off‑world for lots of credits.
+icon: rocket
+cost: 1200 credits, 40 metal
+gives: 10 credits
+
+building: megaFactory
+name: Mega factory
+desc: A huge complex that boosts all production.
+icon: factory
+cost: 5000 credits, 50 metal, 10 crystal
+gives: 25 credits
+
+upgrades
+
+upgrade: betterTools
+name: Better tools
+desc: You learn to mine ore more efficiently.
+icon: rock
+cost: 100 credits
+mult: mine.gives 1.5
+
+upgrade: hardenedDrills
+name: Hardened drills
+desc: Automated mines pull more ore out of the ground.
+icon: rock
+cost: 200 credits, 50 ore
+mult: mine.gives 2
+
+upgrade: efficientSmelters
+name: Efficient smelters
+desc: Smelters produce more metal from the same ore.
+icon: bar
+cost: 300 credits, 40 ore
+mult: smelter.gives 2
+
+upgrade: reinforcedWorkshops
+name: Reinforced workshops
+desc: Workshops can run faster and output more credits.
+icon: factory
+cost: 400 credits, 30 metal
+mult: workshop.gives 2
+
+upgrade: highVoltage
+name: High voltage
+desc: Power plants generate more energy.
+icon: lightning
+cost: 500 credits, 30 ore
+mult: powerPlant.gives 2
+
+upgrade: crystalFarming
+name: Crystal farming
+desc: Crystal labs become more efficient.
+icon: gem
+cost: 800 credits, 10 crystal
+mult: crystalLab.gives 2
+
+upgrade: advancedTheories
+name: Advanced theories
+desc: Research labs produce more research.
+icon: flask
+cost: 1200 credits, 20 research
+mult: researchLab.gives 2
+
+upgrade: tradeRoutes
+name: Trade routes
+desc: Spaceports earn much more from exports.
+icon: rocket
+cost: 1500 credits, 20 metal
+mult: spacePort.gives 2
+
+upgrade: megaAutomation
+name: Mega automation
+desc: Mega factories produce many more credits.
+icon: factory
+cost: 4000 credits, 20 crystal
+mult: megaFactory.gives 2
+
+upgrade: globalBoost
+name: Galactic synergy
+desc: Every building produces more of its main output.
+icon: star
+cost: 10000 credits, 50 research
+mult: workshop.gives 1.5, powerPlant.gives 1.5, mine.gives 1.5, smelter.gives 1.5, crystalLab.gives 1.5, researchLab.gives 1.5, spacePort.gives 1.5, megaFactory.gives 1.5
+
+achievements
+
+achievement: firstOre
+name: First ore
+desc: Mine your first ore.
+icon: rock
+req: ore 1
+
+achievement: firstCredits
+name: First paycheck
+desc: Earn your first 100 credits.
+icon: money
+req: credits 100
+
+achievement: bigIndustry
+name: Growing industry
+desc: Own 10 workshops.
+icon: factory
+req: workshop 10
+
+achievement: researchBoom
+name: Knowledge boom
+desc: Reach 100 research.
+icon: flask
+req: research 100
+
+achievement: galacticTycoon
+name: Galactic tycoon
+desc: Reach 100000 credits.
+icon: star
+req: credits 100000
